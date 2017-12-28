@@ -18,3 +18,24 @@ cabal.sandbox.config
 .stack-work/
 cabal.project.local
 .HTF/
+
+
+# For VS Code
+
+.vscode
+TEST
+test
+
+\#*\#
+.markdown-preview.html
+.\#*
+*~
+.ignore
+*.ignore
+
+*.lhs~
+
+# For macOS
+
+.DS_Store
+
