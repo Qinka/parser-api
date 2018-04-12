@@ -28,11 +28,11 @@ import           Yet.Dopsnd.Types
 -- | parse ip string with given prefix and chars
 parsingIP :: Stream s m Char
           => String -- ^ prefix
-          -> Parsec s u Char -- ^ chars
-          -> Parsec s u String
+          -> ParsecT s u m Char -- ^ chars
+          -> ParsecT s u m String
 parsingIP pre chars = do
   spaces
-  string i
+  string pre
   spaces
   optional $ string "addr"
   spaces
@@ -43,19 +43,22 @@ parsingIP pre chars = do
   return cs
 
 -- | parse ipv4 address
-parsingV4 :: Parsec s (Eth String) ()
+parsingV4 :: Stream s m Char
+          => ParsecT s (Eth String) m ()
 parsingV4 =
   parsingIP "inet"   (oneOf "0123456789.")
   >>= \ip -> modifyState (addV4 ip)
 
 -- | parse ipv6 address
-parsingV6 :: Parsec s (Eth String) ()
+parsingV6 :: Stream s m Char
+          => ParsecT s (Eth String) m ()
 parsingV6 =
   parsingIP "inet6"  (oneOf "0123456789:aAbBcCdDeEfF")
   >>= \ip -> modifyState (addV6 ip)
 
 -- | parse eth infors
-parsingEth :: Parsec s (Eth String) (Eth String)
+parsingEth :: Stream s m Char
+           => ParsecT s (Eth String) m (Eth String)
 parsingEth = try pEOF <|> try pV4 <|> try pV6 <|> pSkip
   where pEOF  = space >> eof >> getState
         pV4   = parsingV4 >> parsingEth

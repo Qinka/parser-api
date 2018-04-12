@@ -10,7 +10,7 @@ license:             GPL-3
 license-file:        LICENSE
 author:              Johann Lee
 maintainer:          me@qinka.pro
--- copyright:           
+copyright:           (C) 2018 Johann Lee <me@qinka.pro>
 category:            Text
 build-type:          Simple
 extra-source-files:  ChangeLog.md
@@ -18,7 +18,7 @@ cabal-version:       >=1.10
 
 library
   exposed-modules:     Yet.Dopsnd
-  other-modules:       Path_yet_parser
+  other-modules:       Paths_yet_parser
                      , Yet.Dopsnd.Types
                      , Yet.Dopsnd.Parser   
   other-extensions:    MultiParamTypeClasses
@@ -30,4 +30,20 @@ library
                      , parsec
                      , bytestring >= 0.10
   hs-source-dirs:      src
+  default-language:    Haskell2010
+
+test-suite spec
+  type:                exitcode-stdio-1.0
+  main-is:             Spec.hs
+  hs-source-dirs:      test
+                     , src
+  ghc-options:         -Wall
+  build-depends:       base
+                     , hspec
+                     , text
+                     , aeson
+                     , parsec
+                     , bytestring >= 0.10
+  other-modules:       Yet.DopsndSpec
+  --other-extensions:   
   default-language:    Haskell2010

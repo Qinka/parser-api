@@ -26,9 +26,9 @@ data Eth a = Eth
 
 -- add an ipv4 ip
 addV4 :: a -> Eth a -> Eth a
-addV4 Eth{..} ip = Eth (ip:ethV4) ethV6
+addV4 ip Eth{..} = Eth (ip:ethV4) ethV6
 
 
 -- add an ipv6 ip
 addV6 :: a -> Eth a -> Eth a
-addV6 Eth{..} ip = Eth ethV4 (ip:ethV6)
+addV6 ip Eth{..} = Eth ethV4 (ip:ethV6)

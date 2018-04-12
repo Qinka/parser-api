@@ -19,9 +19,10 @@ module Yet.Dopsnd
 import           Text.Parsec
 import           Yet.Dopsnd.Parser
 import           Yet.Dopsnd.Types
+import Data.Functor.Identity
 
 -- parsing eth info from string
-parseEth ::Stream s Identity t
+parseEth ::Stream s Identity Char
          => SourceName
          -> s  -- ^ strings
          -> Either String (Eth String)
