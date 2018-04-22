@@ -59,9 +59,9 @@ parsingV6 =
 -- | parse eth infors
 parsingEth :: Stream s m Char
            => ParsecT s (Eth String) m (Eth String)
-parsingEth = try pEOF <|> try pV4 <|> try pV6 <|> pSkip
-  where pEOF  = space >> eof >> getState
+parsingEth = try pEOF <|> try pV6 <|> try pV4 <|> pSkip
+  where pEOF  = eof >> getState
         pV4   = parsingV4 >> parsingEth
         pV6   = parsingV6 >> parsingEth
-        pSkip = skipMany (noneOf "\r\n") >> parsingEth
+        pSkip = skipMany (noneOf "\r\n") >> many (oneOf "\r\n") >>  parsingEth
 
