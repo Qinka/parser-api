@@ -6,7 +6,7 @@ License     : GPLv3
 Maintainer  : me@qinka.pro
 Portability : Unknown
 
-The types for parsers, which includes IPv4, and so on.
+The types for parsers, which includes IPv4, IPv6, and so on.
 -}
 
 {-# LANGUAGE RecordWildCards #-}
@@ -17,18 +17,22 @@ module Yet.Dopsnd.Types
   , addV6
   ) where
 
--- | ethernet informations
+-- | The infos of a eth net interface.
 data Eth a = Eth
   { ethV4 :: [a] -- ^ ipv4 addresses
   , ethV6 :: [a] -- ^ ipv6 addresses
   }
   deriving (Show, Eq)
 
--- add an ipv4 ip
-addV4 :: a -> Eth a -> Eth a
+-- | Add an ipv4 ip
+addV4 ::     a -- ^ The ipv4 address to be inserted.
+      -> Eth a -- ^ The old status
+      -> Eth a -- ^ The new status
 addV4 ip Eth{..} = Eth (ip:ethV4) ethV6
 
 
--- add an ipv6 ip
-addV6 :: a -> Eth a -> Eth a
+-- | Add an ipv6 ip
+addV6 ::     a -- ^ The ipv6 address to be inserted.
+      -> Eth a -- ^ The old status
+      -> Eth a -- ^ The new status
 addV6 ip Eth{..} = Eth ethV4 (ip:ethV6)

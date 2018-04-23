@@ -6,7 +6,7 @@ License     : GPLv3
 Maintainer  : me@qinka.pro
 Portability : Unknown
 
-Parsers to get the informations
+Parsers to get the information of a eth net interface.
 -}
 
 {-# LANGUAGE FlexibleContexts      #-}
@@ -25,10 +25,10 @@ import qualified Data.Text.Encoding as T
 import           Text.Parsec
 import           Yet.Dopsnd.Types
 
--- | parse ip string with given prefix and chars
+-- | To parse IP string with given prefix and chars
 parsingIP :: Stream s m Char
-          => String -- ^ prefix
-          -> ParsecT s u m Char -- ^ chars
+          => String -- ^ Prefix
+          -> ParsecT s u m Char -- ^ Chars
           -> ParsecT s u m String
 parsingIP pre chars = do
   spaces
@@ -42,21 +42,21 @@ parsingIP pre chars = do
   spaces
   return cs
 
--- | parse ipv4 address
+-- | To parse ipv4 address
 parsingV4 :: Stream s m Char
           => ParsecT s (Eth String) m ()
 parsingV4 =
   parsingIP "inet"   (oneOf "0123456789.")
   >>= \ip -> modifyState (addV4 ip)
 
--- | parse ipv6 address
+-- | To parse ipv6 address
 parsingV6 :: Stream s m Char
           => ParsecT s (Eth String) m ()
 parsingV6 =
   parsingIP "inet6"  (oneOf "0123456789:aAbBcCdDeEfF")
   >>= \ip -> modifyState (addV6 ip)
 
--- | parse eth infors
+-- | To parse eth infors
 parsingEth :: Stream s m Char
            => ParsecT s (Eth String) m (Eth String)
 parsingEth = try pEOF <|> try pV6 <|> try pV4 <|> pSkip
